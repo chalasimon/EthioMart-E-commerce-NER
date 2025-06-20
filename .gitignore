@@ -12,3 +12,6 @@ env.bak/
 venv.bak/
 # data
 data/
+
+# setup scripts
+setup.py
