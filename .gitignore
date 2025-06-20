@@ -1,0 +1,17 @@
+# Python 
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+# python virtual environments
+*.venv
+env/
+ENV/
+env.bak/
+venv.bak/
+# data
+data/
+
+# setup scripts
+setup.py
