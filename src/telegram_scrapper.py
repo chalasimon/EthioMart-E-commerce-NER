@@ -4,7 +4,6 @@ import asyncio
 from datetime import datetime
 from telethon import TelegramClient, errors
 from dotenv import load_dotenv
-from PIL import Image
 import io
 
 # Load environment variables
