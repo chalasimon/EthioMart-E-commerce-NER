@@ -8,8 +8,8 @@ from etnltk.lang.am import normalize
 class Preprocessor:
     def __init__(self, data):
         self.data = data
-    def remove_duplicates(self, column_name='Message'):
-        self.data = self.data.drop_duplicates(subset=[column_name])
+    def remove_duplicates(self):
+        self.data = self.data.drop_duplicates(subset=['ID', 'Message', 'Date'])
     def clean_text(self,column_name='Message'):
         custom_pipeline = [
             preprocessing.remove_emojis,
