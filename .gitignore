@@ -6,8 +6,8 @@ __pycache__/
 .Python
 # python virtual environments
 *.venv
+.env
 env/
-ENV/
 env.bak/
 venv.bak/
 # data
