@@ -3,13 +3,12 @@ import pandas as pd
 import numpy as np
 from etnltk.lang.am import (preprocessing,clean_amharic)
 from etnltk.lang.am import normalize
+from etnltk.tokenize.am import word_tokenize
 
 
 class Preprocessor:
     def __init__(self, data):
         self.data = data
-    def remove_duplicates(self):
-        self.data = self.data.drop_duplicates(subset=['ID', 'Message', 'Date'])
     def clean_text(self,column_name='Message'):
         custom_pipeline = [
             preprocessing.remove_emojis,
@@ -28,3 +27,15 @@ class Preprocessor:
             lambda text: normalize(text)
         )
         return self.data[column_name]
+    def split(self, text):
+        # Splits the text into sentences
+        return text.split()
+    def tokenize_sentences(self, column_name='Message'):
+        # Tokenizes the text data into sentences
+        #self.data['Tokens'] = self.data[column_name].apply(
+        #    lambda text: word_tokenize(text)
+        #)
+        self.data['Tokens'] = self.data[column_name].apply(
+            lambda text: self.split(text)
+        )
+        return self.data['Tokens']
