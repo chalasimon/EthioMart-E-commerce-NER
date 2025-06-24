@@ -26,16 +26,15 @@ class NERDataLabeller:
         self.location_indicators = [
             'አዲስአበባ', 'ገርጂ', 'አዲስ', 'ብስራተ', 'ከተማ', 'ገጽ', 'Addisababa', 'Addis', 'Gergi',
             'Bole', 'ቦሌ', 'መገናኛ', 'ሜክሲኮ', 'ድሬዳዋ', 'አሸዋ', 'ሚና', 'ህንፃ', 'ፎቅ','መዳህኒአለም', 'መርካቶ','ቤተክርስቲያን','ቁ','ቁ1','ቁ2','ቁ3',
-            'ማራቶን', 'ገበያ', 'ማእከል', 'መግቢያ', 'መሬት', 'ላይ', 'ግራውንድ', 'በስተቀኝ',
-            'በመጀመሪያው', 'ሱቅቁ', 'ቁጥር', 'አበባ'
-        ]
+            'ማራቶን', 'ገበያ', 'ማእከል', 'መግቢያ', 'መሬት', 'ላይ', 'ግራውንድ', 'በስተቀኝ', 'ዘፍመሽ','ቀኝ','ግራ','ፎቅ',
+            'በመጀመሪያው', 'ሱቅቁ', 'ቁጥር', 'አበባ','ኬኬር']
         self.product_indicators = [
             'ምርት', 'እቃ', 'አምራች', 'አምራች እቃ', 'Juicer', 'ጁስ', 'ማሽን', 'portable',
             'ብርጭቆ', 'dispenser', 'Mop', 'Slicer', 'Gloves', 'Humidifier', 'Phone',
-            'Smart', 'ስልክ', 'ስማርት', 'አውቶሞቢል'
+            'Smart', 'ስልክ', 'ስማርት', 'አውቶሞቢል','መፍጪያ', 'ማሽን','PUMA','Adidas','Nike','ጆግ','ጫማ'
         ]
 
-        self.price_pattern = re.compile(r'(?:ዋጋ[:：]?\s*)?(\d+)(?:\s*(?:ብር|birr))?', re.IGNORECASE)
+        self.price_pattern = re.compile(r'(?:ዋጋ[:：]?\s*)?(?!09)\d+(?:\s*(?:ብር|birr))?', re.IGNORECASE)
 
     def auto_label(self, tokens: List[str]) -> List[str]:
         labels = []
@@ -89,8 +88,10 @@ class NERDataLabeller:
         return self.labels
 
     def retrieve_label_data(self, token_column: str, mode: str = "auto"):
-        if len(self.data) > 5:
-            self.data = self.data.head(5)
+        labeled_lines = []
+        # random sampling of data
+        if len(self.data) > 100:
+            self.data = self.data.sample(n=100)
 
         for index, row in self.data.iterrows():
             # Safely parse token list from column
@@ -103,4 +104,16 @@ class NERDataLabeller:
 
             for token, label in labels:
                 print(f"{token}\t{label}")
-            print("")
+                labeled_lines.append(f"{token} {label}") # each token in a single line separated by space
+            labeled_lines.append("")  # Add a blank line after each sentence
+        return labeled_lines
+    def save_conll_format(self, labeled_lines: List[str], output_file: str) -> bool:
+        try:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                for line in labeled_lines:
+                    f.write(line + '\n')
+            return True
+        except Exception as e:
+            print(f"Error saving labels to file: {e}")
+            return False
+
