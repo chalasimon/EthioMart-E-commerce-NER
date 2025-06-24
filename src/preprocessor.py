@@ -12,6 +12,7 @@ class Preprocessor:
     def clean_text(self,column_name='Message'):
         custom_pipeline = [
             preprocessing.remove_emojis,
+            preprocessing.remove_links,
             ]
         if not pd.api.types.is_string_dtype(self.data[column_name]):
             self.data[column_name] = self.data[column_name].astype(str).replace('nan', '')
