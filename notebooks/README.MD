@@ -10,6 +10,7 @@ A complete data pipeline for Ethiopian Telegram e-commerce channels, featuring:
 - Named Entity Recognition (NER) labeling
 - Fine tuning of NER models with Hugging Face Transformers
 - Model Comparison & Selection
+- Model interpretation 
 
 ## Notebooks files
 - `data_ingestion.ipynb`: Scrapes messages from Telegram channels.
@@ -17,5 +18,6 @@ A complete data pipeline for Ethiopian Telegram e-commerce channels, featuring:
 - `data_labeling.ipynb`: Labels entities in the preprocessed data and saves them in CoNLL format.
 - `ner_fine_tuner.ipynb`: Fine-tunes NER models using the labeled data.
 - `model_comparison.ipynb`: Compares different NER models to select the best one based on performance metrics.
+- `model_interpretation.ipynb`: Interprets the selected NER model using LIME and SHAP.
 
 
